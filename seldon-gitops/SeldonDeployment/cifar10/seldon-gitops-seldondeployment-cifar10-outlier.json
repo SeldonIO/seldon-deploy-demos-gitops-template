@@ -1,0 +1,58 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "kind": "Service",
+            "apiVersion": "serving.knative.dev/v1",
+            "metadata": {
+                "name": "seldon-gitops-seldondeployment-cifar10-outlier",
+                "namespace": "seldon-gitops",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "fluentd": "true"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "outlier-detector",
+                                "image": "seldonio/alibi-detect-server:1.6.0-PR2923",
+                                "args": [
+                                    "--model_name",
+                                    "cifar10-od",
+                                    "--http_port",
+                                    "8080",
+                                    "--protocol",
+                                    "tensorflow.http",
+                                    "--storage_uri",
+                                    "gs://seldon-models/alibi-detect/od/OutlierVAE/cifar10",
+                                    "--reply_url",
+                                    "http://seldon-request-logger.seldon-logs",
+                                    "--event_type",
+                                    "io.seldon.serving.inference.outlier",
+                                    "--event_source",
+                                    "io.seldon.serving.seldon-gitops-seldondeployment-cifar10-outlier",
+                                    "OutlierDetector",
+                                    "--drift_batch_size",
+                                    "1000"
+                                ],
+                                "resources": {},
+                                "securityContext": {
+                                    "runAsUser": 8888
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {}
+        }
+    ]
+}
