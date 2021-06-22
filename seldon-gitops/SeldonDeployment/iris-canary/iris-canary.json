@@ -40,7 +40,40 @@
                 "replicas": 1,
                 "engineResources": {},
                 "svcOrchSpec": {},
-                "traffic": 100
+                "traffic": 90
+            },
+            {
+                "name": "canary",
+                "graph": {
+                    "name": "iris-canary-container",
+                    "implementation": "XGBOOST_SERVER",
+                    "modelUri": "gs://seldon-models/xgboost/iris",
+                    "logger": {
+                        "mode": "all"
+                    }
+                },
+                "componentSpecs": [
+                    {
+                        "metadata": {
+                            "creationTimestamp": "2021-06-22T15:07:54Z"
+                        },
+                        "spec": {
+                            "containers": [
+                                {
+                                    "name": "iris-canary-container",
+                                    "resources": {}
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "annotations": {
+                    "seldon.io/canary": "true"
+                },
+                "engineResources": {},
+                "svcOrchSpec": {},
+                "traffic": 10
             }
         ],
         "annotations": {
