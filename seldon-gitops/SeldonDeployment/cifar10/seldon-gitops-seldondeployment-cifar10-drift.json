@@ -48,7 +48,7 @@
                                     "io.seldon.serving.seldon-gitops-seldondeployment-cifar10-drift",
                                     "DriftDetector",
                                     "--drift_batch_size",
-                                    "1000"
+                                    "2"
                                 ],
                                 "ports": [
                                     {
