@@ -6,6 +6,7 @@
         "namespace": "seldon-gitops",
         "creationTimestamp": null,
         "labels": {
+            "argocd.argoproj.io/instance": "seldon-gitops-seldon-gitops",
             "fluentd": "true"
         }
     },
@@ -40,7 +41,15 @@
                 "replicas": 1,
                 "engineResources": {},
                 "svcOrchSpec": {},
-                "traffic": 100
+                "traffic": 100,
+                "explainer": {
+                    "type": "AnchorImages",
+                    "modelUri": "gs://seldon-models/tfserving/cifar10/explainer-py36-0.5.2",
+                    "containerSpec": {
+                        "name": "",
+                        "resources": {}
+                    }
+                }
             }
         ],
         "annotations": {
