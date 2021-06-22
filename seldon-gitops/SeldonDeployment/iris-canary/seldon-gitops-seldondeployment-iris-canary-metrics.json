@@ -1,0 +1,81 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "kind": "Service",
+            "apiVersion": "serving.knative.dev/v1",
+            "metadata": {
+                "name": "seldon-gitops-seldondeployment-iris-canary-metrics",
+                "namespace": "seldon-gitops",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "fluentd": "true"
+                        },
+                        "annotations": {
+                            "autoscaling.knative.dev/maxScale": "1",
+                            "autoscaling.knative.dev/minScale": "1",
+                            "prometheus.io/path": "/v1/metrics",
+                            "prometheus.io/port": "8080",
+                            "prometheus.io/scrape": "true"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "metrics-detector",
+                                "image": "seldonio/alibi-detect-server:1.6.0-PR2923",
+                                "args": [
+                                    "--model_name",
+                                    "multiclassserver",
+                                    "--http_port",
+                                    "8080",
+                                    "--protocol",
+                                    "seldonfeedback.http",
+                                    "--storage_uri",
+                                    "adserver.cm_models.multiclass_numeric.MultiClassNumeric",
+                                    "--reply_url",
+                                    "http://seldon-request-logger.seldon-logs",
+                                    "--event_type",
+                                    "io.seldon.serving.feedback.metrics",
+                                    "--event_source",
+                                    "io.seldon.serving.seldon-gitops-seldondeployment-iris-canary-metrics",
+                                    "MetricsServer",
+                                    "--drift_batch_size",
+                                    "1000"
+                                ],
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "SELDON_DEPLOYMENT_ID",
+                                        "value": "iris-canary"
+                                    },
+                                    {
+                                        "name": "SELDON_DEPLOYMENT_NAMESPACE",
+                                        "value": "seldon-gitops"
+                                    }
+                                ],
+                                "resources": {},
+                                "securityContext": {
+                                    "runAsUser": 8888
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {}
+        }
+    ]
+}
