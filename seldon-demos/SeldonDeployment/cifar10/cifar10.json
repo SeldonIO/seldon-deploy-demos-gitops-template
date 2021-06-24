@@ -3,7 +3,7 @@
     "apiVersion": "machinelearning.seldon.io/v1",
     "metadata": {
         "name": "cifar10",
-        "namespace": "seldon-gitops",
+        "namespace": "seldon-demos",
         "creationTimestamp": null,
         "labels": {
             "argocd.argoproj.io/instance": "seldon-gitops-seldon-gitops",

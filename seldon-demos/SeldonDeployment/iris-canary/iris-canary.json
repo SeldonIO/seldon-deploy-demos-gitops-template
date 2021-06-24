@@ -3,7 +3,7 @@
     "apiVersion": "machinelearning.seldon.io/v1",
     "metadata": {
         "name": "iris-canary",
-        "namespace": "seldon-gitops",
+        "namespace": "seldon-demos",
         "creationTimestamp": null,
         "labels": {
             "fluentd": "true"

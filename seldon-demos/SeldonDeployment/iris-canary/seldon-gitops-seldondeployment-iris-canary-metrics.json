@@ -8,7 +8,7 @@
             "apiVersion": "serving.knative.dev/v1",
             "metadata": {
                 "name": "seldon-gitops-seldondeployment-iris-canary-metrics",
-                "namespace": "seldon-gitops",
+                "namespace": "seldon-demos",
                 "creationTimestamp": null
             },
             "spec": {
