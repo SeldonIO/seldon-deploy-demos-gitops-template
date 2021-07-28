@@ -7,7 +7,7 @@
             "kind": "Service",
             "apiVersion": "serving.knative.dev/v1",
             "metadata": {
-                "name": "seldon-gitops-seldondeployment-cifar10-drift",
+                "name": "seldon-demos-seldondeployment-cifar10-drift",
                 "namespace": "seldon-demos",
                 "creationTimestamp": null
             },
@@ -16,7 +16,9 @@
                     "metadata": {
                         "creationTimestamp": null,
                         "labels": {
-                            "fluentd": "true"
+                            "fluentd": "true",
+                            "seldon-deployment-id": "cifar10",
+                            "seldon.io/drift": "true"
                         },
                         "annotations": {
                             "autoscaling.knative.dev/maxScale": "1",
@@ -30,7 +32,7 @@
                         "containers": [
                             {
                                 "name": "drift-detector",
-                                "image": "seldonio/alibi-detect-server:1.6.0-PR2923",
+                                "image": "seldonio/alibi-detect-server:1.9.1",
                                 "args": [
                                     "--model_name",
                                     "cifar10-dd",
@@ -45,10 +47,10 @@
                                     "--event_type",
                                     "io.seldon.serving.inference.drift",
                                     "--event_source",
-                                    "io.seldon.serving.seldon-gitops-seldondeployment-cifar10-drift",
+                                    "io.seldon.serving.seldon-demos-seldondeployment-cifar10-drift",
                                     "DriftDetector",
                                     "--drift_batch_size",
-                                    "2"
+                                    "1000"
                                 ],
                                 "ports": [
                                     {
@@ -63,7 +65,7 @@
                                     },
                                     {
                                         "name": "SELDON_DEPLOYMENT_NAMESPACE",
-                                        "value": "seldon-gitops"
+                                        "value": "seldon-demos"
                                     }
                                 ],
                                 "resources": {},
