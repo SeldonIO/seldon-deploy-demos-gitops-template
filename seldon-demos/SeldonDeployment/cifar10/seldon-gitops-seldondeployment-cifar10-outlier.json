@@ -7,7 +7,7 @@
             "kind": "Service",
             "apiVersion": "serving.knative.dev/v1",
             "metadata": {
-                "name": "seldon-gitops-seldondeployment-cifar10-outlier",
+                "name": "seldon-demos-seldondeployment-cifar10-outlier",
                 "namespace": "seldon-demos",
                 "creationTimestamp": null
             },
@@ -16,17 +16,19 @@
                     "metadata": {
                         "creationTimestamp": null,
                         "labels": {
-                            "fluentd": "true"
+                            "fluentd": "true",
+                            "seldon-deployment-id": "cifar10",
+                            "seldon.io/outlier": "true"
                         }
                     },
                     "spec": {
                         "containers": [
                             {
                                 "name": "outlier-detector",
-                                "image": "seldonio/alibi-detect-server:1.6.0-PR2923",
+                                "image": "seldonio/alibi-detect-server:1.9.1",
                                 "args": [
                                     "--model_name",
-                                    "cifar10-od",
+                                    "outlier-detector",
                                     "--http_port",
                                     "8080",
                                     "--protocol",
@@ -38,7 +40,7 @@
                                     "--event_type",
                                     "io.seldon.serving.inference.outlier",
                                     "--event_source",
-                                    "io.seldon.serving.seldon-gitops-seldondeployment-cifar10-outlier",
+                                    "io.seldon.serving.seldon-demos-seldondeployment-cifar10-outlier",
                                     "OutlierDetector",
                                     "--drift_batch_size",
                                     "1000"
