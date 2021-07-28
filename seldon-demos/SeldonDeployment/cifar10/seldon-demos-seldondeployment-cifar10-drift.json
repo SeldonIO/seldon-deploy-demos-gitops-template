@@ -7,7 +7,7 @@
             "kind": "Service",
             "apiVersion": "serving.knative.dev/v1",
             "metadata": {
-                "name": "seldon-gitops-seldondeployment-cifar10-drift",
+                "name": "seldon-demos-seldondeployment-cifar10-outlier",
                 "namespace": "seldon-demos",
                 "creationTimestamp": null
             },
@@ -16,55 +16,34 @@
                     "metadata": {
                         "creationTimestamp": null,
                         "labels": {
-                            "fluentd": "true"
-                        },
-                        "annotations": {
-                            "autoscaling.knative.dev/maxScale": "1",
-                            "autoscaling.knative.dev/minScale": "1",
-                            "prometheus.io/path": "/v1/metrics",
-                            "prometheus.io/port": "8080",
-                            "prometheus.io/scrape": "true"
+                            "fluentd": "true",
+                            "seldon-deployment-id": "cifar10",
+                            "seldon.io/outlier": "true"
                         }
                     },
                     "spec": {
                         "containers": [
                             {
-                                "name": "drift-detector",
-                                "image": "seldonio/alibi-detect-server:1.6.0-PR2923",
+                                "name": "outlier-detector",
+                                "image": "seldonio/alibi-detect-server:1.9.1",
                                 "args": [
                                     "--model_name",
-                                    "cifar10-dd",
+                                    "cifar10-od",
                                     "--http_port",
                                     "8080",
                                     "--protocol",
                                     "tensorflow.http",
                                     "--storage_uri",
-                                    "gs://seldon-models/alibi-detect/cd/ks/cifar10-0_4_4",
+                                    "gs://seldon-models/alibi-detect/od/OutlierVAE/cifar10",
                                     "--reply_url",
                                     "http://seldon-request-logger.seldon-logs",
                                     "--event_type",
-                                    "io.seldon.serving.inference.drift",
+                                    "io.seldon.serving.inference.outlier",
                                     "--event_source",
-                                    "io.seldon.serving.seldon-gitops-seldondeployment-cifar10-drift",
-                                    "DriftDetector",
+                                    "io.seldon.serving.seldon-demos-seldondeployment-cifar10-outlier",
+                                    "OutlierDetector",
                                     "--drift_batch_size",
-                                    "2"
-                                ],
-                                "ports": [
-                                    {
-                                        "containerPort": 8080,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "env": [
-                                    {
-                                        "name": "SELDON_DEPLOYMENT_ID",
-                                        "value": "cifar10"
-                                    },
-                                    {
-                                        "name": "SELDON_DEPLOYMENT_NAMESPACE",
-                                        "value": "seldon-gitops"
-                                    }
+                                    "1000"
                                 ],
                                 "resources": {},
                                 "securityContext": {
