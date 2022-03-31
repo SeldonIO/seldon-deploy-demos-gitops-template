@@ -44,7 +44,7 @@
                 "traffic": 100,
                 "explainer": {
                     "type": "AnchorImages",
-                    "modelUri": "gs://seldon-models/tfserving/cifar10/explainer-py36-0.5.2",
+                    "modelUri": "gs://seldon-models/tfserving/cifar10/cifar10_anchor_image_py3.7_alibi-0.6.2",
                     "containerSpec": {
                         "name": "",
                         "resources": {}
